@@ -1,7 +1,7 @@
 export default function Home() {
     return (
         <>
-            <p className="">Pouet</p>
+            <p className="bg-primary">Pouet</p>
         </>
     )
 }
