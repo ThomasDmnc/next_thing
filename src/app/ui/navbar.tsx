@@ -24,7 +24,8 @@ export function Navbar(){
     const pathname = usePathname();
     console.log(pathname)
     return (
-        <div className='flex flew-row w-full py-5 px-24 items-center justify-between'>
+        <div className='w-full'>
+            <div className='flex flex-row py-5 px-24 items-center justify-between'>
             <Link href='/'>
                 <Image 
                     src="https://cdn.worldvectorlogo.com/logos/next-js.svg" 
@@ -38,7 +39,7 @@ export function Navbar(){
                     return (
                         <Link key={link.name} href={link.url}  
                         className={clsx(
-                            'justify-center bg-gray-50 p-3 text-sm font-medium rounded-md hover:bg-secondary hover:', pathname === link.url && 'underline'
+                            'justify-center bg-gray-50 p-3 font-bold text-primary font-medium rounded-md hover:overline', pathname === link.url && 'overline'
                           )}>
                             <p>{link.name}</p>
                         </Link>
@@ -46,5 +47,8 @@ export function Navbar(){
                 )}
             </div>
         </div>
+        </div>
+
+
     )
 }
