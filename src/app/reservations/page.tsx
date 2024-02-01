@@ -14,9 +14,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
  
-export function DatePickerDemo() {
+export function DatePickerDemo({ onDateChange }) {
   const [date, setDate] = React.useState<Date>()
- 
+
+  React.useEffect(() => {
+    onDateChange?.(date)
+  }, [date])
+
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -44,7 +49,23 @@ export function DatePickerDemo() {
 }
 
 export default function Reservations() {
+    const [formData,setFormData] = React.useState({
+        name: "",
+        email: "",
+        phone: "",
+        date: "",
+        time: "",
+        guests: "",
+        message: ""
+    })
 
+
+    const handleDateChange = (date: string) => {
+      setFormData(prevState => ({ ...prevState, date }));
+    };
+
+
+    console.log(formData)
     return (
         <>
         <Navbar />
@@ -53,20 +74,20 @@ export default function Reservations() {
                 <h1 className='text-4xl font-bold text-blue-600'>Make a reservation at Next Restaurant</h1>
             </div>
 
-            <form className='flex flex-col w-1/2 space-evenly'>
+            <form className='flex flex-col my-12 w-1/2 space-evenly'>
                 <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" />
+                <input type="text" id="name" name="name" onChange={(event) => {setFormData(prevData => ({ ...prevData, name: event.target.value }))}} />
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" />
+                <input type="email" id="email" name="email" onChange={(event) => {setFormData(prevData => ({ ...prevData, email: event.target.value }))}} />
                 <label htmlFor="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" />
+                <input type="tel" id="phone" name="phone" onChange={(event) => {setFormData(prevData => ({ ...prevData, phone: event.target.value }))}}/>
                 <label htmlFor="date">Date</label>
-                <DatePickerDemo />
-                <input type="time" id="time" name="time" />
+                <DatePickerDemo  onDateChange={handleDateChange} />
+                <input type="time" id="time" name="time" onChange={(event) => {setFormData(prevData => ({ ...prevData, time: event.target.value }))}}/>
                 <label htmlFor="guests">Guests</label>
-                <input type="number" id="guests" name="guests" />
+                <input type="number" id="guests" name="guests" onChange={(event) => {setFormData(prevData => ({ ...prevData, guests: event.target.value }))}}/>
                 <label htmlFor="message">Message</label>
-                <textarea id="message" name="message"></textarea>
+                <textarea id="message" name="message" onChange={(event) => {setFormData(prevData => ({ ...prevData, message: event.target.value }))}} />
                 <button type="submit">Submit</button>
             </form>
 
