@@ -1,6 +1,47 @@
 'use client'
 import { Navbar } from '../ui/navbar';
+import * as React from "react"
+
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+ 
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+ 
+export function DatePickerDemo() {
+  const [date, setDate] = React.useState<Date>()
+ 
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-[280px] justify-start text-left font-normal",
+            !date && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? format(date, "PPP") : <span>Pick a date</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+  )
+}
 
 export default function Reservations() {
 
@@ -12,8 +53,6 @@ export default function Reservations() {
                 <h1 className='text-4xl font-bold text-blue-600'>Make a reservation at Next Restaurant</h1>
             </div>
 
-            <Calendar />
-
             <form className='flex flex-col w-1/2 space-evenly'>
                 <label htmlFor="name">Name</label>
                 <input type="text" id="name" name="name" />
@@ -22,8 +61,7 @@ export default function Reservations() {
                 <label htmlFor="phone">Phone</label>
                 <input type="tel" id="phone" name="phone" />
                 <label htmlFor="date">Date</label>
-                <input type="date" id="date" name="date" />
-                <label htmlFor="time">Time</label>
+                <DatePickerDemo />
                 <input type="time" id="time" name="time" />
                 <label htmlFor="guests">Guests</label>
                 <input type="number" id="guests" name="guests" />
