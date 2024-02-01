@@ -22,7 +22,6 @@ const links = [
 
 export function Navbar(){
     const pathname = usePathname();
-    console.log(pathname)
     return (
         <div className='w-full'>
             <div className='flex flex-row py-5 px-24 items-center justify-between'>
@@ -39,7 +38,7 @@ export function Navbar(){
                     return (
                         <Link key={link.name} href={link.url}  
                         className={clsx(
-                            'justify-center bg-gray-50 p-3 font-bold text-primary font-medium rounded-md hover:overline', pathname === link.url && 'overline'
+                            'justify-center bg-gray-50 p-3 font-bold text-blue-600 font-medium rounded-md hover:overline', pathname === link.url && 'overline'
                           )}>
                             <p>{link.name}</p>
                         </Link>
