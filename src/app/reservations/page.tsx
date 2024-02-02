@@ -14,12 +14,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
  
-function DatePickerDemo({ onDateChange }) {
+function DatePickerDemo({ onDateChange }: { onDateChange: (date: Date) => void }) {
   const [date, setDate] = React.useState<Date>()
 
   React.useEffect(() => {
-    onDateChange?.(date)
-  }, [date])
+    if (date) {
+      onDateChange?.(date)
+    }
+  }, [date, onDateChange])
 
 
   return (
