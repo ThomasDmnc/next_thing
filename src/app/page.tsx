@@ -1,4 +1,3 @@
-import styles from '@/app/ui/global.css';
 import { Navbar } from './ui/navbar';
 import Link from 'next/link';
 
