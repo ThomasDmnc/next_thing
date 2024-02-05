@@ -14,15 +14,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
  
-function DatePickerDemo({ onDateChange }: { onDateChange: (date: Date) => void }) {
+function DatePickerDemo({ onDateChange }: { onDateChange: (date: Date) => void}) {
   const [date, setDate] = React.useState<Date>()
+
+
 
   React.useEffect(() => {
     if (date) {
-      onDateChange?.(date)
+      onDateChange(date)
     }
-  }, [date, onDateChange])
-
+  }, [date])
+  
 
   return (
     <Popover>
@@ -84,7 +86,7 @@ export default function Reservations() {
                 <label htmlFor="phone">Phone</label>
                 <input type="tel" id="phone" name="phone" onChange={(event) => {setFormData(prevData => ({ ...prevData, phone: event.target.value }))}}/>
                 <label htmlFor="date">Date</label>
-                <DatePickerDemo  onDateChange={handleDateChange} />
+                <DatePickerDemo onDateChange={(date: Date) => handleDateChange(date.toISOString())} />
                 <input type="time" id="time" name="time" onChange={(event) => {setFormData(prevData => ({ ...prevData, time: event.target.value }))}}/>
                 <label htmlFor="guests">Guests</label>
                 <input type="number" id="guests" name="guests" onChange={(event) => {setFormData(prevData => ({ ...prevData, guests: event.target.value }))}}/>
