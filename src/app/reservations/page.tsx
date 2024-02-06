@@ -13,11 +13,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+
+import {createReservation} from '../lib/action'
  
 function DatePickerDemo({ onDateChange }: { onDateChange: (date: Date) => void}) {
   const [date, setDate] = React.useState<Date>()
-
-
 
   React.useEffect(() => {
     if (date) {
@@ -25,7 +25,7 @@ function DatePickerDemo({ onDateChange }: { onDateChange: (date: Date) => void})
     }
   }, [date])
   
-
+  console.log(date)
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -59,15 +59,9 @@ export default function Reservations() {
         phone: "",
         date: "",
         time: "",
-        guests: "",
+        guests: 0,
         message: ""
     })
-
-
-    const handleDateChange = (date: string) => {
-      setFormData(prevState => ({ ...prevState, date }));
-    };
-
 
     console.log(formData)
     return (
@@ -78,7 +72,7 @@ export default function Reservations() {
                 <h1 className='text-4xl font-bold text-blue-600'>Make a reservation at Next Restaurant</h1>
             </div>
 
-            <form className='flex flex-col my-12 w-1/2 space-evenly'>
+            <form action={createReservation} className='flex flex-col my-12 w-1/2 space-evenly'>
                 <label htmlFor="name">Name</label>
                 <input type="text" id="name" name="name" onChange={(event) => {setFormData(prevData => ({ ...prevData, name: event.target.value }))}} />
                 <label htmlFor="email">Email</label>
@@ -86,10 +80,10 @@ export default function Reservations() {
                 <label htmlFor="phone">Phone</label>
                 <input type="tel" id="phone" name="phone" onChange={(event) => {setFormData(prevData => ({ ...prevData, phone: event.target.value }))}}/>
                 <label htmlFor="date">Date</label>
-                <DatePickerDemo onDateChange={(date: Date) => handleDateChange(date.toISOString())} />
+                <DatePickerDemo onDateChange={(date) => { setFormData(prevData => ({ ...prevData, date: date.toISOString()}))}}/>
                 <input type="time" id="time" name="time" onChange={(event) => {setFormData(prevData => ({ ...prevData, time: event.target.value }))}}/>
                 <label htmlFor="guests">Guests</label>
-                <input type="number" id="guests" name="guests" onChange={(event) => {setFormData(prevData => ({ ...prevData, guests: event.target.value }))}}/>
+                <input type="number" id="guests" name="guests" onChange={(event) => {setFormData(prevData => ({ ...prevData, guests: Number(event.target.value) }))}}/>
                 <label htmlFor="message">Message</label>
                 <textarea id="message" name="message" onChange={(event) => {setFormData(prevData => ({ ...prevData, message: event.target.value }))}} />
                 <button type="submit">Submit</button>
