@@ -14,56 +14,24 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import {createReservation} from '../lib/action'
- 
-function DatePickerDemo({ onDateChange }: { onDateChange: (date: Date) => void}) {
-  const [date, setDate] = React.useState<Date>()
-
-  React.useEffect(() => {
-    if (date) {
-      onDateChange(date)
-    }
-  }, [date])
-  
-  console.log(date)
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
-  )
-}
+import {createReservation} from '../lib/actions'
+import { useFormState } from 'react-dom';
+import { DatePickerInput } from '@mantine/dates';
 
 export default function Reservations() {
-    const [formData,setFormData] = React.useState({
+    const initialState ={
         name: "",
         email: "",
         phone: "",
-        date: "",
+        dateR: "",
         time: "",
         guests: 0,
-        message: ""
-    })
+        message: "",
+    }
+    const [formData, setFormData] = React.useState(initialState)
+    const [value, setValue] = React.useState<Date | null>(null);
 
-    console.log(formData)
+    console.log("front", )
     return (
         <>
         <Navbar />
@@ -80,7 +48,37 @@ export default function Reservations() {
                 <label htmlFor="phone">Phone</label>
                 <input type="tel" id="phone" name="phone" onChange={(event) => {setFormData(prevData => ({ ...prevData, phone: event.target.value }))}}/>
                 <label htmlFor="date">Date</label>
-                <DatePickerDemo onDateChange={(date) => { setFormData(prevData => ({ ...prevData, date: date.toISOString()}))}}/>
+                <DatePickerInput
+                  label="Pick date"
+                  placeholder="Pick date"
+                  value={value}
+                  name="dateR"
+                  onChange={setValue}
+                />
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[280px] justify-start text-left font-normal",
+                        !formData.dateR && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {formData.dateR ? format(formData.dateR, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      id='dateR'
+                      selected={formData.dateR ? new Date(formData.dateR) : undefined}
+                      onDayClick={(event) => {setFormData(prevData => ({ ...prevData, dateR: event.toISOString()}))}}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
                 <input type="time" id="time" name="time" onChange={(event) => {setFormData(prevData => ({ ...prevData, time: event.target.value }))}}/>
                 <label htmlFor="guests">Guests</label>
                 <input type="number" id="guests" name="guests" onChange={(event) => {setFormData(prevData => ({ ...prevData, guests: Number(event.target.value) }))}}/>
