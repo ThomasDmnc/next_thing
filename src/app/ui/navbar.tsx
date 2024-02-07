@@ -38,7 +38,7 @@ export function Navbar(){
                     return (
                         <Link key={link.name} href={link.url}  
                         className={clsx(
-                            'justify-center bg-gray-50 p-3 font-bold text-blue-600 font-medium rounded-md hover:overline', pathname === link.url && 'overline'
+                            'justify-center p-3 font-bold text-blue-600 font-medium rounded-md hover:overline', pathname === link.url && 'overline'
                           )}>
                             <p>{link.name}</p>
                         </Link>
