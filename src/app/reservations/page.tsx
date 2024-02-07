@@ -1,21 +1,7 @@
 'use client'
 import { Navbar } from '../ui/navbar';
 import * as React from "react"
-
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
- 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
 import {createReservation} from '../lib/actions'
-import { useFormState } from 'react-dom';
 import { DatePickerInput } from '@mantine/dates';
 
 export default function Reservations() {
@@ -56,29 +42,6 @@ export default function Reservations() {
                   onChange={setValue}
                 />
 
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[280px] justify-start text-left font-normal",
-                        !formData.dateR && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {formData.dateR ? format(formData.dateR, "PPP") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      id='dateR'
-                      selected={formData.dateR ? new Date(formData.dateR) : undefined}
-                      onDayClick={(event) => {setFormData(prevData => ({ ...prevData, dateR: event.toISOString()}))}}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
                 <input type="time" id="time" name="time" onChange={(event) => {setFormData(prevData => ({ ...prevData, time: event.target.value }))}}/>
                 <label htmlFor="guests">Guests</label>
                 <input type="number" id="guests" name="guests" onChange={(event) => {setFormData(prevData => ({ ...prevData, guests: Number(event.target.value) }))}}/>
