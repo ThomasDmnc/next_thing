@@ -5,18 +5,6 @@ import {createReservation} from '../lib/actions'
 import { DatePickerInput } from '@mantine/dates';
 
 export default function Reservations() {
-    const initialState ={
-        name: "",
-        email: "",
-        phone: "",
-        date: "",
-        time: "",
-        guests: 0,
-        message: "",
-    }
-    const [formData, setFormData] = React.useState(initialState)
-
-    console.log("front", FormData )
     return (
         <>
         <Navbar />
