@@ -1,98 +1,42 @@
 'use client'
 import { Navbar } from '../ui/navbar';
 import * as React from "react"
-
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
- 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
- 
-function DatePickerDemo({ onDateChange }: { onDateChange: (date: Date) => void}) {
-  const [date, setDate] = React.useState<Date>()
-
-
-
-  React.useEffect(() => {
-    if (date) {
-      onDateChange(date)
-    }
-  }, [date])
-  
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
-  )
-}
+import {createReservation} from '../lib/actions'
+import { DatePickerInput } from '@mantine/dates';
 
 export default function Reservations() {
-    const [formData,setFormData] = React.useState({
-        name: "",
-        email: "",
-        phone: "",
-        date: "",
-        time: "",
-        guests: "",
-        message: ""
-    })
-
-
-    const handleDateChange = (date: string) => {
-      setFormData(prevState => ({ ...prevState, date }));
-    };
-
-
-    console.log(formData)
     return (
         <>
         <Navbar />
-        <main className="flex min-h-screen flex-col items-center p-24">
-            <div className='flex flex-row w-full items-start max-w-6xl h-full px-4 mx-auto sm:px-6 '>
+        <main className="flex min-h-screen flex-col items-center p-8 md:p-12 lg:p-24">
+            <div className='flex flex-row w-full items-start max-w-6xl h-full px-4 mx-auto'>
                 <h1 className='text-4xl font-bold text-blue-600'>Make a reservation at Next Restaurant</h1>
             </div>
 
-            <form className='flex flex-col my-12 w-1/2 space-evenly'>
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" onChange={(event) => {setFormData(prevData => ({ ...prevData, name: event.target.value }))}} />
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" onChange={(event) => {setFormData(prevData => ({ ...prevData, email: event.target.value }))}} />
-                <label htmlFor="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" onChange={(event) => {setFormData(prevData => ({ ...prevData, phone: event.target.value }))}}/>
-                <label htmlFor="date">Date</label>
-                <DatePickerDemo onDateChange={(date: Date) => handleDateChange(date.toISOString())} />
-                <input type="time" id="time" name="time" onChange={(event) => {setFormData(prevData => ({ ...prevData, time: event.target.value }))}}/>
-                <label htmlFor="guests">Guests</label>
-                <input type="number" id="guests" name="guests" onChange={(event) => {setFormData(prevData => ({ ...prevData, guests: event.target.value }))}}/>
-                <label htmlFor="message">Message</label>
-                <textarea id="message" name="message" onChange={(event) => {setFormData(prevData => ({ ...prevData, message: event.target.value }))}} />
-                <button type="submit">Submit</button>
+            <form action={createReservation} className='flex flex-col w-full max-w-4xl justify-evenly items-start h-full px-4 py-4 mx-auto sm:px-6'>
+                <label className='font-bold text-blue-600 text-lg py-2' htmlFor="name">Name</label>
+                <input required className='w-full h-full p-2 border-2 border-blue-300 rounded mb-4' type="text" id="name" name="name" placeholder="Paul Bocuse" />
+                <label className='font-bold text-blue-600 text-lg py-2' htmlFor="email">Email</label>
+                <input required className='w-full h-full p-2 border-2 border-blue-300 rounded mb-4' type="email" id="email" name="email" placeholder="paul@miam.org" />
+                <label className='font-bold text-blue-600 text-lg py-2' htmlFor="phone">Phone</label>
+                <input required className='w-full h-full p-2 border-2 border-blue-300 rounded mb-4' type="tel" id="phone" name="phone" placeholder="0601020304" minLength={10} maxLength={10} pattern='^\d{10}$'/>
+                <label className='font-bold text-blue-600 text-lg py-2' htmlFor="date">Date</label>
+                <div className='flex flex-row w-full justify-center items-center'>
+                    <DatePickerInput
+                    placeholder="Pick date"
+                    name="date"
+                    className='w-1/3 items-center'
+                    />
+                </div>
+                <label className='font-bold text-blue-600 text-lg py-2' htmlFor="time">Time</label>
+                <input required className='w-full h-full p-2 border-2 border-blue-300 rounded mb-4' type="time" id="time" name="time" />
+                <label className='font-bold text-blue-600 text-lg py-2' htmlFor="guests">Guests</label>
+                <input required className='w-full h-full p-2 border-2 border-blue-300 rounded mb-4' type="number" id="guests" name="guests" placeholder="2" min='1' max='10'/>
+                <label className='font-bold text-blue-600 text-lg py-2' htmlFor="message">Message</label>
+                <textarea required rows={5} className='w-full h-full p-2 border-2 border-blue-300 rounded mb-4'  id="message" name="message"  placeholder="Bonjour. Yes, it's Paul. I'd like to book a table for 2. Extra-butter in my purée, thanks."/>
+                <div className='flex flex-row w-full justify-center items-center my-8'>
+                    <button className='bg-gray-500 rounded-lg p-4 font-bold text-white hover:bg-gray-700 w-1/3' type="submit">Submit</button>
+                </div>
             </form>
 
         </main>
