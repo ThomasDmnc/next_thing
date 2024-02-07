@@ -40,18 +40,48 @@ async function seedUsers(client){
 
 }
 
-// async function seedReservation(){
-//     try {
+async function seedReservation(client){
+    try {
+        await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }   
+        const createTable = await client.sql`
+            CREATE TABLE IF NOT EXISTS reservations (
+                ID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                NAME TEXT NOT NULL,
+                EMAIL TEXT NOT NULL,
+                PHONE TEXT NOT NULL,
+                DATE TEXT NOT NULL,
+                TIME TEXT NOT NULL,
+                GUESTS INT NOT NULL,
+                MESSAGE TEXT NULL    
+            )
+        `;
+        console.log('Table Reservations created successfully');
+        
+        const insertReservations = await Promise.all(reservations.map(async (reservation) => {
+            return client.sql`
+                INSERT INTO reservations (name, email, phone, date, time, guests, message)
+                VALUES (${reservation.name}, ${reservation.email}, ${reservation.phone}, ${reservation.date}, ${reservation.time}, ${reservation.guests}, ${reservation.message}) 
+                ON CONFLICT (id) DO NOTHING;
+            `
+        }));
+
+        console.log(`Added ${reservations.length} reservations to reservations table`);
+
+        return {
+            createTable,
+            reservations: insertReservations,
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}   
 
 async function main() {
     const client = await db.connect();
   
     await seedUsers(client);
+    await seedReservation(client);
     await client.end();
   }
   
