@@ -11,7 +11,7 @@ export async function createReservation(formData: FormData) {
         name: z.string(),
         email: z.string().email(),
         phone: z.string().regex(/^\d{10}$/),
-        dateR: z.string(),
+        date: z.string(),
         time: z.string().regex(/^\d{2}:\d{2}$/),
         guest: z.number(),
         message: z.string(),
@@ -19,20 +19,20 @@ export async function createReservation(formData: FormData) {
 
     console.log("back", formData)
 
-    const { name, email, phone, dateR, time, guest, message } = ReservationForm.parse({
+    const { name, email, phone, date, time, guest, message } = ReservationForm.parse({
         name: formData.get('name'),
         email: formData.get('email'),
         phone: formData.get('phone'),
-        dateR: formData.get('date'),
+        date: formData.get('date'),
         time: formData.get('time'),
         guest: Number(formData.get('guest')),
         message: formData.get('message'),
     });
-    console.log({ name, email, phone, dateR, time, guest, message })
+    console.log({ name, email, phone, date, time, guest, message })
 
     try {
         await sql `
-        INSERT INTO reservations VALUES (${name}, ${email}, ${phone}, ${dateR}, ${time}, ${guest}, ${message})
+        INSERT INTO reservations VALUES (${name}, ${email}, ${phone}, ${date}, ${time}, ${guest}, ${message})
         `
         console.log('Reservation created')
         revalidatePath('/reservations')

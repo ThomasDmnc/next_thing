@@ -9,15 +9,14 @@ export default function Reservations() {
         name: "",
         email: "",
         phone: "",
-        dateR: "",
+        date: "",
         time: "",
         guests: 0,
         message: "",
     }
     const [formData, setFormData] = React.useState(initialState)
-    const [value, setValue] = React.useState<Date | null>(null);
 
-    console.log("front", )
+    console.log("front", FormData )
     return (
         <>
         <Navbar />
@@ -28,25 +27,22 @@ export default function Reservations() {
 
             <form action={createReservation} className='flex flex-col my-12 w-1/2 space-evenly'>
                 <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" onChange={(event) => {setFormData(prevData => ({ ...prevData, name: event.target.value }))}} />
+                <input type="text" id="name" name="name"  />
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" onChange={(event) => {setFormData(prevData => ({ ...prevData, email: event.target.value }))}} />
+                <input type="email" id="email" name="email" />
                 <label htmlFor="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" onChange={(event) => {setFormData(prevData => ({ ...prevData, phone: event.target.value }))}}/>
+                <input type="tel" id="phone" name="phone" />
                 <label htmlFor="date">Date</label>
                 <DatePickerInput
                   label="Pick date"
                   placeholder="Pick date"
-                  value={value}
-                  name="dateR"
-                  onChange={setValue}
+                  name="date"
                 />
-
-                <input type="time" id="time" name="time" onChange={(event) => {setFormData(prevData => ({ ...prevData, time: event.target.value }))}}/>
+                <input type="time" id="time" name="time" />
                 <label htmlFor="guests">Guests</label>
-                <input type="number" id="guests" name="guests" onChange={(event) => {setFormData(prevData => ({ ...prevData, guests: Number(event.target.value) }))}}/>
+                <input type="number" id="guests" name="guests" />
                 <label htmlFor="message">Message</label>
-                <textarea id="message" name="message" onChange={(event) => {setFormData(prevData => ({ ...prevData, message: event.target.value }))}} />
+                <textarea id="message" name="message"  />
                 <button type="submit">Submit</button>
             </form>
 
