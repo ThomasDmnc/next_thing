@@ -8,7 +8,7 @@ export default function Reservations() {
     return (
         <>
         <Navbar />
-        <main className="flex min-h-screen flex-col items-center p-2 md:p-12 lg:p-24">
+        <main className="flex min-h-screen flex-col items-center p-8 md:p-12 lg:p-24">
             <div className='flex flex-row w-full items-start max-w-6xl h-full px-4 mx-auto'>
                 <h1 className='text-4xl font-bold text-blue-600'>Make a reservation at Next Restaurant</h1>
             </div>
