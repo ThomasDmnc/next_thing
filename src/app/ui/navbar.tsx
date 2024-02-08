@@ -24,7 +24,7 @@ export function Navbar(){
     const pathname = usePathname();
     return (
         <div className='w-full'>
-            <div className='flex flex-row py-5 px-24 items-center justify-between'>
+            <div className='flex flex-row py-5 items-center justify-between px-8 md:px-12 lg:px-24'>
             <Link href='/'>
                 <Image 
                     src="https://cdn.worldvectorlogo.com/logos/next-js.svg" 
@@ -33,12 +33,12 @@ export function Navbar(){
                     height={50}
                 />
             </Link>
-            <div className="flex flex-row w-[40%] items-center justify-evenly">
+            <div className="flex flex-row md:w-[40%] items-start md:items-center lg:justify-evenly">
                 {links.map((link) => {
                     return (
                         <Link key={link.name} href={link.url}  
                         className={clsx(
-                            'justify-center p-3 font-bold text-blue-600 font-medium rounded-md hover:overline', pathname === link.url && 'overline'
+                            'justify-center p-3 font-bold text-blue-600 font-medium md:text-xl rounded-md hover:overline', pathname === link.url && 'overline'
                           )}>
                             <p>{link.name}</p>
                         </Link>
