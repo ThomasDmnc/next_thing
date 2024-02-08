@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';    
 import { redirect } from 'next/navigation'
 import { sql } from '@vercel/postgres';
+import { signIn } from '@/auth';
 
 
 
@@ -41,5 +42,10 @@ export async function createReservation(formData: FormData) {
     }
     revalidatePath('/reservations')
     redirect('/')
+
+}
+
+
+export async function authenticate(){
 
 }
