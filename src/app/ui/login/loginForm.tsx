@@ -1,16 +1,19 @@
 "use client";
 import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "../../lib/actions";
+import {
+    ExclamationCircleIcon,
+  } from '@heroicons/react/24/outline';
 import clsx from 'clsx'
 
 export function LoginForm() {
-  const [state, dispatch] = useFormState(authenticate, undefined);
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
   const { pending, data, method, action } = useFormStatus();
   
 
   return (
     <>
-      <form className="flex flex-col my-12 w-full md:w-1/3 max-w-6xl">
+      <form action={dispatch} className="flex flex-col my-12 w-full md:w-1/3 max-w-6xl">
         <label className="font-bold text-blue-600 text-lg py-2" htmlFor="email">
           Email
         </label>
@@ -37,6 +40,19 @@ export function LoginForm() {
           placeholder="Your password"
         />
         <Submit />
+
+        <div
+          className="flex h-8 items-end space-x-1"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {errorMessage && (
+            <>
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+              <p className="text-sm text-red-500">{errorMessage}</p>
+            </>
+          )}
+        </div>
       </form>
     </>
   );
