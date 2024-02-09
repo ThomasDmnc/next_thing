@@ -5,8 +5,11 @@ import Navlinks from "./navlinks";
 export default function Sidebar() {
 
   return (
-    <div className="flex flex-col md:items-start lg:justify-start">
-      <Navlinks />
+    <div className="flex flex-col md:items-start py-8 md:py-12 items-center justify-between">
+      <div>
+        <Navlinks />
+      </div>
+      
       <form
         action={async () => {
           'use server';

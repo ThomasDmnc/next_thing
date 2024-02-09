@@ -5,6 +5,8 @@ import { redirect } from 'next/navigation'
 import { sql } from '@vercel/postgres';
 import { signIn } from '../../../auth';
 import { AuthError } from 'next-auth';
+import { Reservation } from './definitions';
+import { QueryResult } from 'pg';
 
 
 
@@ -44,6 +46,18 @@ export async function createReservation(formData: FormData) {
     revalidatePath('/reservations')
     redirect('/')
 
+}
+
+
+export async function getReservations(): Promise<Reservation[]> {
+  try {
+    const result: QueryResult = await sql `SELECT * FROM reservations`
+    console.log(result)
+    return result.rows as Reservation[]; 
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
 
 
