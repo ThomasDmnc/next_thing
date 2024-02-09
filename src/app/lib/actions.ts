@@ -52,11 +52,21 @@ export async function createReservation(formData: FormData) {
 export async function getReservations(): Promise<Reservation[]> {
   try {
     const result: QueryResult = await sql `SELECT * FROM reservations`
-    console.log(result)
+    console.log(result.rows)
     return result.rows as Reservation[]; 
   } catch (error) {
     console.error(error);
     return [];
+  }
+}
+
+export async function getReservation(id: string): Promise<Reservation | null> {
+  try {
+    const result: QueryResult = await sql `SELECT * FROM reservations WHERE id = ${id}`
+    return result.rows[0] as Reservation;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 }
 
