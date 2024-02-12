@@ -8,21 +8,18 @@ import { AuthError } from 'next-auth';
 import { Reservation } from './definitions';
 import { QueryResult } from 'pg';
 
+const ReservationForm = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  phone: z.string().regex(/^\d{10}$/),
+  date: z.string(),
+  time: z.string().regex(/^\d{2}:\d{2}$/),
+  guests: z.number(),
+  message: z.string(),
+});
 
 
 export async function createReservation(formData: FormData) {
-    const ReservationForm = z.object({
-        name: z.string(),
-        email: z.string().email(),
-        phone: z.string().regex(/^\d{10}$/),
-        date: z.string(),
-        time: z.string().regex(/^\d{2}:\d{2}$/),
-        guests: z.number(),
-        message: z.string(),
-    });
-
-    console.log("back", formData)
-
     const { name, email, phone, date, time, guests, message } = ReservationForm.parse({
         name: formData.get('name'),
         email: formData.get('email'),
@@ -52,7 +49,6 @@ export async function createReservation(formData: FormData) {
 export async function getReservations(): Promise<Reservation[]> {
   try {
     const result: QueryResult = await sql `SELECT * FROM reservations`
-    console.log(result.rows)
     return result.rows as Reservation[]; 
   } catch (error) {
     console.error(error);
@@ -68,6 +64,34 @@ export async function getReservation(id: string): Promise<Reservation | null> {
     console.error(error);
     return null;
   }
+}
+
+export async function modifyReservation(id: string, formData: FormData){
+  console.log("back", formData)
+
+  const { name, email, phone, date, time, guests, message } = ReservationForm.parse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    phone: formData.get('phone'),
+    date: formData.get('date'),
+    time: formData.get('time'),
+    guests: Number(formData.get('guests')),
+    message: formData.get('message'),
+  });
+    console.log({ name, email, phone, date, time, guests, message })
+    console.log(id)
+
+  try {
+      await sql `
+        UPDATE reservations
+        SET NAME = ${name}, EMAIL = ${email}, PHONE = ${phone}, DATE = ${date}, TIME = ${time}, GUESTS = ${guests}, MESSAGE = ${message}
+        WHERE id = ${id}
+      `;
+  } catch (error){
+    console.log(error)
+  }
+  revalidatePath('/dashboard/reservations')
+  redirect('/dashboard/reservations')
 }
 
 

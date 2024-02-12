@@ -5,7 +5,7 @@ import Navlinks from "./navlinks";
 export default function Sidebar() {
 
   return (
-    <div className="flex flex-col md:items-start py-8 md:py-12 items-center justify-between">
+    <div className="flex flex-col h-full md:items-start py-8 md:py-12 items-center justify-between">
       <div>
         <Navlinks />
       </div>
