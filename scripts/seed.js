@@ -118,7 +118,7 @@ async function seedMenu(client){
 async function main() {
     const client = await db.connect();
   
-    await seedUsers(client);
+    // await seedUsers(client);
     await seedReservation(client);
     await seedMenu(client);
     await client.end();
