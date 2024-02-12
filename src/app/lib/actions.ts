@@ -18,7 +18,6 @@ const ReservationForm = z.object({
   message: z.string(),
 });
 
-
 export async function createReservation(formData: FormData) {
     const { name, email, phone, date, time, guests, message } = ReservationForm.parse({
         name: formData.get('name'),
@@ -67,8 +66,6 @@ export async function getReservation(id: string): Promise<Reservation | null> {
 }
 
 export async function modifyReservation(id: string, formData: FormData){
-  console.log("back", formData)
-
   const { name, email, phone, date, time, guests, message } = ReservationForm.parse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -78,8 +75,6 @@ export async function modifyReservation(id: string, formData: FormData){
     guests: Number(formData.get('guests')),
     message: formData.get('message'),
   });
-    console.log({ name, email, phone, date, time, guests, message })
-    console.log(id)
 
   try {
       await sql `
@@ -93,6 +88,23 @@ export async function modifyReservation(id: string, formData: FormData){
   revalidatePath('/dashboard/reservations')
   redirect('/dashboard/reservations')
 }
+
+
+export async function deleteReservation(id: string){
+  if (id === null || id === 'undefined' ){
+    throw new Error('No id passed')
+  }
+    try {
+      await sql `
+        DELETE FROM reservations
+        WHERE id = ${id}
+      `;
+    } catch(error){
+      console.log(error)
+    }
+    revalidatePath('/dashboard/reservations')
+}
+
 
 
 export async function authenticate(

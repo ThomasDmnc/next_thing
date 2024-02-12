@@ -1,5 +1,5 @@
 "use client";
-import { getReservations } from '../../lib/actions';
+import { getReservations, deleteReservation } from '../../lib/actions';
 import { Reservation } from '../../lib/definitions';
 import { useEffect, useState } from 'react';
 
@@ -8,8 +8,7 @@ export default function Reservations() {
 
     useEffect(() => {
         getReservations().then(setReservations);
-
-    }, [])
+    }, [reservations])
 
     return (
 
@@ -18,11 +17,17 @@ export default function Reservations() {
                 <h1 className='text-4xl font-bold text-blue-600'>Manage the Reservations</h1>
             </div>
 
-            <div className='w-full'>
+            <div className='my-8'>
+                <button className='bg-blue-600 rounded p-4 font-bold text-white hover:bg-blue-900'>
+                    Create a new Reservation
+                </button>
+            </div>
+
+            <div className='grow'>
                 <h2 className='text-2xl font-bold text-blue-600 my-4'>Reservations</h2>
-                <div className='grid grid-cols-3 gap-12 w-full'>
+                <div className='grid grid-cols-4 gap-12'>
                     {reservations.map((reservation: Reservation) => (
-                        <div className='w-full flex flex-col' key={reservation.id}>
+                        <div className='w-full h-full flex flex-col border-2 items-center justify-center p-2' key={reservation.id}>
                             <p>Reservation made by {reservation.name}</p>
                             <p>Contact information:</p>
                             <p>{reservation.email}</p>
@@ -32,6 +37,11 @@ export default function Reservations() {
                             <p>{reservation.time}</p>
                             <p>{reservation.guests}</p>
                             <p>{reservation.message}</p>
+                            <form action={deleteReservation.bind(null, reservation.id)}>
+                                <button className='bg-red-500 rounded p-4 font-bold text-white hover:bg-red-600'>
+                                    Delete the reservation
+                                </button>
+                            </form>
                         </div>
                     ))}
                 </div> 

@@ -80,7 +80,7 @@ async function seedReservation(client){
 async function main() {
     const client = await db.connect();
   
-    await seedUsers(client);
+    // await seedUsers(client);
     await seedReservation(client);
     await client.end();
   }
