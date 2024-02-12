@@ -2,6 +2,7 @@
 import { getReservations, deleteReservation } from '../../lib/actions';
 import { Reservation } from '../../lib/definitions';
 import { useEffect, useState } from 'react';
+import Link from "next/link";
 
 export default function Reservations() {
     const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -18,9 +19,12 @@ export default function Reservations() {
             </div>
 
             <div className='my-8'>
-                <button className='bg-blue-600 rounded p-4 font-bold text-white hover:bg-blue-900'>
-                    Create a new Reservation
-                </button>
+                <Link
+                href='/dashboard/reservations/create'>
+                    <button className='bg-blue-600 rounded p-4 font-bold text-white hover:bg-blue-900'>
+                        Create a new Reservation
+                    </button>
+                </Link>
             </div>
 
             <div className='grow'>
@@ -37,11 +41,20 @@ export default function Reservations() {
                             <p>{reservation.time}</p>
                             <p>{reservation.guests}</p>
                             <p>{reservation.message}</p>
-                            <form action={deleteReservation.bind(null, reservation.id)}>
-                                <button className='bg-red-500 rounded p-4 font-bold text-white hover:bg-red-600'>
-                                    Delete the reservation
-                                </button>
-                            </form>
+                            <div className='flex flex-row p-4 justify-between w-full'>
+                                <Link
+                                    href={`/dashboard/reservations/${reservation.id}/edit`}
+                                >
+                                    <button className='bg-blue-600 rounded p-2 font-bold text-white text-sm hover:bg-blue-900 mr-2'>
+                                            Edit the reservation
+                                    </button>
+                                </Link>
+                                <form action={deleteReservation.bind(null, reservation.id)}>
+                                    <button className='bg-red-500 rounded p-2 font-bold text-white text-sm hover:bg-red-600 ml-2'>
+                                        Delete the reservation
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     ))}
                 </div> 
