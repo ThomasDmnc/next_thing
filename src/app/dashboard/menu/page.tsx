@@ -45,13 +45,13 @@ export default function Menu() {
                 <p>{menuItem.ingredients}</p>
                 <p>${menuItem.price}</p>
                 <div className='flex flex-row p-4 justify-between w-full'>
-                                {/* <Link
+                                <Link
                                     href={`/dashboard/menu/${menuItem.id}/edit`}
                                 >
                                     <button className='bg-blue-600 rounded p-2 font-bold text-white text-sm hover:bg-blue-900 mr-2'>
                                             Edit the menu item
                                     </button>
-                                </Link> */}
+                                </Link>
                                 <form action={deleteMenuItem.bind(null, menuItem.id)}>
                                     <button className='bg-red-500 rounded p-2 font-bold text-white text-sm hover:bg-red-600 ml-2'>
                                         Delete the menu item

@@ -120,10 +120,20 @@ export async function getMenuItems(): Promise<MenuItem[]> {
   try {
     const result: QueryResult = await sql`SELECT * FROM menu`
     return result.rows as MenuItem[];
-    console.log(result.rows)
   } catch (error) {
     console.error(error);
     return [];
+  }
+}
+
+export async function getMenuItem(id: string): Promise<MenuItem | null> {
+  try {
+    const result: QueryResult = await sql`SELECT * FROM menu WHERE id = ${id}`
+    return result.rows[0] as MenuItem;
+  }
+  catch (error) {
+    console.error(error);
+    return null;
   }
 }
 
