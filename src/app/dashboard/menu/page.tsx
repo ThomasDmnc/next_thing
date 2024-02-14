@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import { MenuItem } from "@/app/lib/definitions";
 import Link from "next/link";
 import Image from "next/image";
-import { getMenuItems } from "@/app/lib/actions";
+import { getMenuItems, deleteMenuItem } from "@/app/lib/actions";
 
 export default function Menu() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   useEffect(() => {
     getMenuItems().then(setMenuItems);
-  }, []);
-  console.log(menuItems);
+  }, [menuItems]);
+
   return (
     <main className="flex min-h-screen flex-col w-screen items-start py-8 md:py-12 lg:py-12 px-4 md:px-12">
       <div className="flex flex-row justify-center items-start max-w-6xl">
@@ -44,20 +44,20 @@ export default function Menu() {
                 <p>{menuItem.description}</p>
                 <p>{menuItem.ingredients}</p>
                 <p>${menuItem.price}</p>
-                {/* <div className='flex flex-row p-4 justify-between w-full'>
-                                <Link
+                <div className='flex flex-row p-4 justify-between w-full'>
+                                {/* <Link
                                     href={`/dashboard/menu/${menuItem.id}/edit`}
                                 >
                                     <button className='bg-blue-600 rounded p-2 font-bold text-white text-sm hover:bg-blue-900 mr-2'>
                                             Edit the menu item
                                     </button>
-                                </Link>
+                                </Link> */}
                                 <form action={deleteMenuItem.bind(null, menuItem.id)}>
                                     <button className='bg-red-500 rounded p-2 font-bold text-white text-sm hover:bg-red-600 ml-2'>
                                         Delete the menu item
                                     </button>
                                 </form>
-                            </div> */}
+                            </div>
               </div>
             );
           })}

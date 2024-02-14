@@ -152,6 +152,22 @@ export async function createMenuItem(formData: FormData) {
 }
 
 
+export async function deleteMenuItem(id: string) {
+  if (id === null || id === 'undefined') {
+    throw new Error('No id passed')
+  }
+  try {
+    await sql`
+        DELETE FROM menu
+        WHERE id = ${id}
+      `;
+  } catch (error) {
+    console.log(error)
+  }
+  revalidatePath('/dashboard/menu')
+  redirect('/dashboard/menu')
+}
+
 
   export async function authenticate(
     prevState: string | undefined,
