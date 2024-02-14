@@ -111,8 +111,9 @@ const MenuItemForm = z.object({
   description: z.string(),
   price: z.number(),
   category: z.string(),
-  image: z.string(),
+  image: z.string().optional().nullable(),
   ingredients: z.string(),
+  availability: z.boolean(),
 });
 
 export async function getMenuItems(): Promise<MenuItem[]> {
@@ -127,28 +128,27 @@ export async function getMenuItems(): Promise<MenuItem[]> {
 }
 
 export async function createMenuItem(formData: FormData) {
-  const { name, description, price, category, image, ingredients } = MenuItemForm.parse({
+  const { name, description, price, category, image, ingredients, availability } = MenuItemForm.parse({
     name: formData.get('name'),
     description: formData.get('description'),
     price: Number(formData.get('price')),
     category: formData.get('category'),
     image: formData.get('image'),
     ingredients: formData.get('ingredients'),
+    availability: Boolean(formData.get('availability')),
   });
-
+  console.log(name, description, price, category, image, ingredients)
   try {
     await sql`
-      INSERT INTO menu_items (name, description, price, category, image, ingredients)
-      VALUES (${name}, ${description}, ${price}, ${category}, ${image}, ${ingredients})
+      INSERT INTO menu (name, description, price, category, image, ingredients, availability)
+      VALUES (${name}, ${description}, ${price}, ${category}, ${image}, ${ingredients}, ${availability})
     `
     console.log('Menu item created')
-  } catch (error) {
-    { 
+  } catch (error) { 
       console.log(error) 
-    }
-    revalidatePath('/dashboard/menu')
-    redirect('/dashboard/menu')
   }
+  revalidatePath('/dashboard/menu')
+  redirect('/dashboard/menu')
 }
 
 
