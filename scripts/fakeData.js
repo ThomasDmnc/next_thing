@@ -15,4 +15,33 @@ const reservations = [{
     message: "Allo? Oui, j'ai réservé une table. Dus avec un D comme Dus.",
 },]
 
-module.exports = { users, reservations }
+const menuItems = [{
+    name: "Salade de chèvre chaud",
+    description: "Salade, chèvre chaud, tomates, vinaigrette",
+    ingredients: "Salade, chèvre chaud, tomates, vinaigrette",
+    price: 8.50,
+    availability: true,
+    category: "starters",
+    image: "https://www.lesfoodies.com/_recipeimage/1024/salade-chevre-chaud-1.jpg",
+},
+{
+    name: "Carpaccio de boeuf",
+    description: "Carpaccio de boeuf, parmesan, roquette, vinaigrette",
+    ingredients: "Carpaccio de boeuf, parmesan, roquette, vinaigrette",
+    price: 9.50,
+    availability: true,
+    category: "starters",
+    image: "https://www.lesfoodies.com/_recipeimage/1024/carpaccio-de-boeuf-1.jpg",
+}, 
+{
+    name: "Nouilles sautées aux légumes",
+    description: "Nouilles sautées aux légumes, sauce soja",
+    ingredients: "Nouilles, légumes, sauce soja",
+    price: 12.50,
+    availability: true,
+    category: "main",
+    image: "https://www.lesfoodies.com/_recipeimage/1024/nouilles-sautees-aux-legumes-1.jpg",
+},
+]
+
+module.exports = { users, reservations, menuItems }

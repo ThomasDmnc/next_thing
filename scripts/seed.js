@@ -2,7 +2,8 @@ const { db } = require('@vercel/postgres');
 const bcrypt = require('bcrypt');
 const {
     users,
-    reservations
+    reservations,
+    menuItems
 } = require('./fakeData');
 
 async function seedUsers(client){
@@ -77,11 +78,49 @@ async function seedReservation(client){
     }
 }   
 
+async function seedMenu(client){
+    try {
+        await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+        const createTable = await client.sql`
+            CREATE TABLE IF NOT EXISTS menu (
+                ID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                NAME TEXT NOT NULL,
+                DESCRIPTION TEXT NOT NULL,
+                INGREDIENTS TEXT NOT NULL,
+                PRICE FLOAT NOT NULL,
+                CATEGORY TEXT NOT NULL,
+                AVAILABILITY BOOLEAN NOT NULL,
+                IMAGE TEXT NULL
+            )
+        `;
+        console.log('Table Menu created successfully');
+
+
+        const insertMenu = await Promise.all(menuItems.map(async (menuItem) => {
+            return client.sql`
+                INSERT INTO menu (name, description, ingredients, price, category, availability, image)
+                VALUES (${menuItem.name}, ${menuItem.description}, ${menuItem.ingredients}, ${menuItem.price}, ${menuItem.category}, ${menuItem.availability}, ${menuItem.image})
+                ON CONFLICT (id) DO NOTHING;`
+        }));
+        console.log(`Added ${menuItems.length} items to menu table`);
+
+        return {
+            createTable,
+            menu: insertMenu,
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 async function main() {
     const client = await db.connect();
   
     // await seedUsers(client);
     await seedReservation(client);
+    await seedMenu(client);
     await client.end();
   }
   

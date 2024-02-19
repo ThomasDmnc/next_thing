@@ -15,3 +15,14 @@ export type Reservation = {
     guests: number;
     message: string;
 };
+
+export type MenuItem = {
+    id: string;
+    name: string;
+    description: string;
+    ingredients: string;
+    price: number;
+    image: string;
+    category: string;
+    availability: boolean;
+};
