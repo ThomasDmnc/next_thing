@@ -13,7 +13,7 @@ export default function Menu() {
   }, [menuItems]);
 
   return (
-    <main className="flex min-h-screen flex-col w-screen items-start py-8 md:py-12 lg:py-12 px-4 md:px-12">
+    <main className="flex min-h-screen flex-col w-fit items-start py-8 md:py-12 lg:py-12 px-4 md:px-12">
       <div className="flex flex-row justify-center items-start max-w-6xl">
         <h1 className="text-4xl font-bold text-blue-600">Manage Your Menu</h1>
       </div>
@@ -26,7 +26,7 @@ export default function Menu() {
         </Link>
       </div>
 
-      <div className="grow">
+      <div className="grow grid grid-cols-4 gap-12">
         {menuItems &&
           menuItems.map((menuItem: MenuItem) => {
             return (

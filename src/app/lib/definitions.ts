@@ -23,4 +23,6 @@ export type MenuItem = {
     ingredients: string;
     price: number;
     image: string;
+    category: string;
+    availability: boolean;
 };

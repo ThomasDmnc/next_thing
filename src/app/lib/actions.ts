@@ -161,6 +161,8 @@ export async function createMenuItem(formData: FormData) {
   redirect('/dashboard/menu')
 }
 
+export async function modifyMenuItem(id: string, formData: FormData) {}
+
 
 export async function deleteMenuItem(id: string) {
   if (id === null || id === 'undefined') {
