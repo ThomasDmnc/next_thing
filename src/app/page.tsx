@@ -14,11 +14,19 @@ export default function Home() {
             <p className="text-2xl text-center">
               Generated with Next.js and Tailwind CSS.
             </p>
-            <Link
-              href="/reservations"  
-            >
-              <button className="bg-gray-500 rounded p-4 font-bold text-white hover:bg-gray-700">Book a table</button>
-            </Link>
+            <div className='flex w-full items-center justify-around'>
+              <Link
+                href="/reservations"  
+              >
+                <button className="bg-green-500 rounded p-4 font-bold text-white hover:bg-green-700">Book a table</button>
+              </Link>
+              <Link
+                href="/menu"  
+              >
+                <button className="bg-blue-500 rounded p-4 font-bold text-white hover:bg-blue-700">Our menu</button>
+              </Link>
+            </div>
+
 
           </div>
         </div>
