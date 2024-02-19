@@ -161,7 +161,29 @@ export async function createMenuItem(formData: FormData) {
   redirect('/dashboard/menu')
 }
 
-export async function modifyMenuItem(id: string, formData: FormData) {}
+export async function modifyMenuItem(id: string, formData: FormData) {
+  const { name, description, price, category, image, ingredients, availability } = MenuItemForm.parse({
+    name: formData.get('name'),
+    description: formData.get('description'),
+    price: Number(formData.get('price')),
+    category: formData.get('category'),
+    image: formData.get('image'),
+    ingredients: formData.get('ingredients'),
+    availability: Boolean(formData.get('availability')),
+  });
+
+  try {
+    await sql`
+        UPDATE MENU
+        SET NAME = ${name}, DESCRIPTION = ${description}, PRICE = ${price}, CATEGORY = ${category}, IMAGE = ${image}, INGREDIENTS = ${ingredients}, AVAILABILITY = ${availability}
+        WHERE id = ${id}
+    `;
+  } catch (error) {
+    console.log(error)
+  }
+  revalidatePath('/dashboard/menu')
+  redirect('/dashboard/menu')
+}
 
 
 export async function deleteMenuItem(id: string) {

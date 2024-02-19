@@ -4,10 +4,12 @@ import { modifyMenuItem } from "../../lib/actions";
 import { MenuItem } from "@/app/lib/definitions";
 
 export default function EditForm({ menuItem }: { menuItem: MenuItem }) {
+
+    const updateMenuItem = modifyMenuItem.bind(null, menuItem.id)
   return (
     <main className="flex min-h-screen flex-col w-full items-center py-8 md:py-12 lg:py-12 px-4 md:px-12">
       <form
-        action={modifyMenuItem}
+        action={updateMenuItem}
         className="flex flex-col w-full max-w-4xl justify-evenly items-start h-full px-4 py-4 mx-auto sm:px-6"
       >
         <label className="font-bold text-blue-600 text-lg py-2">Name</label>
