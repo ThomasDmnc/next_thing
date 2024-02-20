@@ -10,7 +10,7 @@ export default function EditMenuItem({ params }: { params: { id: string } }) {
     useEffect(() => {
         getMenuItem(id).then(setMenuItem)
     }, [id]);
-    console.log(menuItem)
+    
     return (
         <>
         <main className="flex min-h-screen flex-col w-fit items-start py-8 md:py-12 lg:py-12 px-4 md:px-12">
