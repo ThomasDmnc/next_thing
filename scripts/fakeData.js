@@ -79,4 +79,12 @@ const menuItems = [
   },
 ];
 
-module.exports = { users, reservations, menuItems };
+const RestaurantInfo = {
+  name: "La Bella Pizza",
+  address: "26 Place Notre-Dame-Du-Mont",
+  city: "Marseille",
+  phone: "01 02 03 04 05",
+  email: "belle@pizza.pizza",
+}
+
+module.exports = { users, reservations, menuItems, RestaurantInfo };

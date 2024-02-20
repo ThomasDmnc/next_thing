@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const {
     users,
     reservations,
-    menuItems
+    menuItems,
+    RestaurantInfo
 } = require('./fakeData');
 
 async function seedUsers(client){
@@ -115,12 +116,47 @@ async function seedMenu(client){
     }
 }
 
+async function seedRestaurantInfo(client){
+    try {
+        await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+        const createTable = await client.sql
+        `  CREATE TABLE IF NOT EXISTS restaurant_info (
+                ID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                NAME TEXT NOT NULL,
+                ADDRESS TEXT NOT NULL,
+                CITY TEXT NOT NULL,
+                PHONE TEXT NOT NULL,
+                EMAIL TEXT NOT NULL,
+                OPENINGHOURS jsonb[] NULL
+            )
+        `;
+        console.log('Table Restaurant Info created successfully');
+
+        const InsertRestaurant = 
+            await client.sql `
+                INSERT INTO restaurant_info (name, address, city, phone, email)
+                VALUES (${RestaurantInfo.name}, ${RestaurantInfo.address}, ${RestaurantInfo.city}, ${RestaurantInfo.phone}, ${RestaurantInfo.email})
+                `;
+
+        console.log('Added restaurant info to restaurant_info table')
+        
+        return {
+            createTable,
+            restaurantInfo: InsertRestaurant,
+        }
+    } catch (error){
+        console.log(error)
+    }
+}
+
 async function main() {
     const client = await db.connect();
   
     // await seedUsers(client);
-    await seedReservation(client);
-    await seedMenu(client);
+    // await seedReservation(client);
+    // await seedMenu(client);
+    await seedRestaurantInfo(client);
     await client.end();
   }
   

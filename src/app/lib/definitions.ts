@@ -26,3 +26,18 @@ export type MenuItem = {
     category: string;
     availability: boolean;
 };
+
+export type RestaurantInfo = {
+    name: string;
+    phone: string;
+    email: string;
+    address: string;
+    city: string;
+    openingHours: object;
+}
+
+export type OpeningHour = {
+    day: string;
+    open: string;
+    close: string;
+}

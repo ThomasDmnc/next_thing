@@ -7,7 +7,7 @@ export default function Home() {
     <>
     <Navbar />
     <main className="flex h-screen flex-col items-center p-8 md:p-12 lg:p-24">
-      <div className='w-full h-3/4 flex flex-col justify-around items-center bg-cover bg-center'style={{backgroundImage: "url('https://images.unsplash.com/photo-1604328471151-b52226907017?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"}}>
+      <div className='w-full h-3/4 flex flex-col justify-around items-center bg-cover bg-center'style={{backgroundImage: "url('https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"}}>
         <div className='flex flex-col justify-around items-center h-full px-4 mx-auto sm:px-6 '>
           <div className='max-w-6xl flex flex-col h-96 justify-evenly items-center text-white' >
             <h1 className="text-6xl font-bold text-center ">Next Restaurant</h1>
