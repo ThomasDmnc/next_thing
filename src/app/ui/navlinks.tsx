@@ -24,7 +24,7 @@ export default function Navlinks() {
     },
     {
       name: "Restaurant Informations",
-      url: "/contact",
+      url: "/dashboard/contact",
     },
   ];
 

@@ -202,22 +202,56 @@ export async function deleteMenuItem(id: string) {
   redirect('/dashboard/menu')
 }
 
+const RestaurantInfoForm = z.object({
+  name: z.string(),
+  phone: z.string().regex(/^((\+)33|0|0033)[1-9](\d{2}){4}$/g),
+  email: z.string().email(),
+  address: z.string(),
+  city: z.string(),
+  openingHours: z.array(z.object({})).nullable(),
+});
 
-  export async function authenticate(
-    prevState: string | undefined,
-    formData: FormData,
-  ) {
-    try {
-      await signIn('credentials', formData);
-    } catch (error) {
-      if (error instanceof AuthError) {
-        switch (error.type) {
-          case 'CredentialsSignin':
-            return 'Invalid credentials.';
-          default:
-            return 'Something went wrong.';
-        }
-      }
-      throw error;
-    }
+export async function modifyRestaurantInfo(formData: FormData) {
+
+  const { name, phone, email, address, city, openingHours } = RestaurantInfoForm.parse({
+    name: formData.get('name'),
+    phone: formData.get('phone'),
+    email: formData.get('email'),
+    address: formData.get('address'),
+    city: formData.get('city'),
+    openingHours: formData.get('openingHours'),
+  });
+
+  try {
+    const openingHoursString = JSON.stringify(openingHours);
+    await sql `
+      UPDATE restaurant_info
+      SET NAME = ${name}, PHONE = ${phone}, EMAIL = ${email}, ADDRESS = ${address}, CITY = ${city}, OPENINGHOURS = ${openingHoursString}
+      `
+
+  } catch ( error ) {
+    console.log(error)
   }
+  revalidatePath('/dashboard/contact')
+  redirect('/dashboard/contact')
+}
+
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
+}
